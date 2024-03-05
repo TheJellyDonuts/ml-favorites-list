@@ -1,3 +1,5 @@
 kardia-obfuserdata.csv
 .python-version
 *.pyc
+userdata.csv
+dummy_data.csv
