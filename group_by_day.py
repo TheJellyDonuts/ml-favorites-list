@@ -20,12 +20,13 @@ for i, day in enumerate(pd.unique(df['day'])):
             by_day.append(item['app_path'][21:])
         last_app = item['app_path']
             
-    print(day, by_day, '\n')
+    if len(by_day) > 10:
+        print(day, by_day, '\n')
     day_tools.update({day : by_day})
         
 
-with open('day_tools.json', 'w') as f:
-    json.dump(day_tools, f)
+# with open('day_tools.json', 'w') as f:
+#     json.dump(day_tools, f)
 
 '''
 [cr_batches, gift_entry, cr_bathces, de_batches]
