@@ -1,6 +1,7 @@
 import random, csv, pandas, argparse
 from datetime import datetime
 from tqdm import tqdm
+import os
 
 # Initialize according to user-provided arguments
 parser = argparse.ArgumentParser(
@@ -16,6 +17,9 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+# Get the current directory
+cur_dir = os.path.dirname(__file__)
+
 # Generate a list of dateTimes within a range
 random.seed()
 dates = []
@@ -28,9 +32,12 @@ for i in tqdm(range(args.num_entries), desc='Generating random dates'):
   dates.append(formatted_date)
 
 # Import users and apps from csvs
-data = pandas.read_csv('default_users.csv', header=0)
+data_dir = os.path.join(cur_dir, 'data')
+user_csv_path = os.path.join(data_dir, "default_users.csv")
+data = pandas.read_csv(user_csv_path, header=0)
 users = data['user_name'].tolist()
-data = pandas.read_csv('default_apps.csv', header=0)
+app_csv_path = os.path.join(data_dir, "default_apps.csv")
+data = pandas.read_csv(app_csv_path, header=0)
 apps = data['app_path_concise'].tolist()
 
 # Pair every date with a random user and random app
@@ -43,17 +50,20 @@ for i in tqdm(range(len(dates)), desc='Generating table entries'):
   }
   entries.append(new_entry)
 
-print('Writing entries to "test_data/dummy_data.csv"...')
-with open('dummy_data.csv', 'w', newline='') as file:
+# Write entries to csv
+output_dir = os.path.join(cur_dir, '../data')
+output_file_path = os.path.join(output_dir, "dummy_data.csv")
+print("Writing entries to " + output_file_path + "...")
+with open(output_file_path, 'w', newline='') as file:
   writer = csv.DictWriter(file, fieldnames=['access_date', 'user_name', 'app_path'])
   writer.writeheader()
   writer.writerows(entries)
 
 # Print sorted csv
 print('Previewing csv as sorted pandas dataframe:')
-dataframe = pandas.read_csv('dummy_data.csv', header=0)
+dataframe = pandas.read_csv(output_file_path, header=0)
 dataframe = dataframe.sort_values(by=['user_name', 'access_date'])
 print(dataframe)
-print('Entries saved to "test_data/dummy_data.csv"')
+print("Entries saved to " + output_file_path + ".")
 
 # Future prospects: have an option for users to use and/or generate their own usernames and apps using the Faker library
