@@ -3,7 +3,7 @@ from geneticalgorithm import geneticalgorithm as ga
 import json
 import re
 import csv
-NUM_RECOMMEND = 5
+NUM_RECOMMEND = 2
 
 toolnums = {}
 tools_by_user = {}
@@ -38,17 +38,19 @@ for value in tools_by_user.values():
 
 nf = [len(ul)-NUM_RECOMMEND+1 for ul in tools_by_user_list]
 num_fives = sum([len(ul)-NUM_RECOMMEND+1 for ul in tools_by_user_list])
-big_banana = np.zeros(shape=(num_fives, NUM_RECOMMEND), dtype=np.uint8)
+# big_banana = np.zeros(shape=(num_fives, NUM_RECOMMEND), dtype=np.uint8)
 # arr = np.append(ini_array, column_to_be_added, axis=1)
+
+hash_banana = set()
 
 idx = 0
 for users in tools_by_user_list:
     for j in range(len(users)-NUM_RECOMMEND+1):
-        big_banana[idx+j] = users[j:j+NUM_RECOMMEND]
+        hash_banana.add(tuple(users[j:j+NUM_RECOMMEND]))
     idx += len(users)-NUM_RECOMMEND+1
 
-new_array = [tuple(row) for row in big_banana]
-unique_banana = np.unique(new_array, axis=0)
+# new_array = [tuple(row) for row in big_banana]
+# unique_banana = np.unique(new_array, axis=0)
 
 []
 
@@ -56,16 +58,28 @@ unique_banana = np.unique(new_array, axis=0)
 def f(tool_num_list):
     # format the input that the GA gives
     # input is a list (not an array!) of numpy numbers
-    joined_ary = np.array2string(np.asarray(tool_num_list, dtype=int), separator=', ')[1:-1]
-    joined_ary = re.sub(r'\s+', r' ', joined_ary).strip()
-
+    # joined_ary = np.array2string(np.asarray(tool_num_list, dtype=int), separator=', ')[1:-1]
+    # joined_ary = re.sub(r'\s+', r' ', joined_ary).strip()
+    joined_ary = tuple(map(int, tool_num_list))
+    # joined_ary = re.sub(r'\s+', r' ', tool_num_list).strip()
+    []
     # algorithm minimizes score, but score is a num of counts (which we want to max),
     # so return the inverse of the score    
     return 1/(calc_score(joined_ary)+1)
 
+# def tuple_to_string(t):
+#     return str(t)[1:-1]
+
+
 # iterate past each day's tool num string and find all matches in the GA input 
 def calc_score(joined_ary):
-    a = sum([repr(row).count(joined_ary) for row in unique_banana])
+    if joined_ary in hash_banana:
+        # print('match')
+        return 1
+    return 0
+    # return 1 if joined_ary in hash_banana else 0
+
+    a = sum([repr(row).count(joined_ary) for row in hash_banana])
     return a
     score = 0
     for row in big_banana:
@@ -73,7 +87,7 @@ def calc_score(joined_ary):
     return score
 
 # Set GA algorithm parameters
-algorithm_param = {'max_num_iteration': 50,
+algorithm_param = {'max_num_iteration': 5000,
                    'population_size':100, # no touch
                    'mutation_probability':0.15, # 0.1
                    'elit_ratio': 0.01,
