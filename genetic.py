@@ -1,4 +1,3 @@
-from itertools import chain
 import numpy as np
 from geneticalgorithm import geneticalgorithm as ga
 import json
@@ -75,6 +74,7 @@ algorithm_param = {'max_num_iteration': 5000,
                    'max_iteration_without_improv': None
                    }
 
+# define the boundaries of the toolnums that the GA values take
 varbound=np.array([[0,len(toolnums)/2-1]]*STRING_LEN)
 
 model=ga(function=f,
@@ -99,7 +99,7 @@ results = {}
 results.update({'apps' : app_lst})
 results.update({'nums' : s})
 results.update({'score' : score})
-with open('results2.json', 'w') as f:
+with open('results.json', 'w') as f:
     json.dump(results, f)
 
 # take the solutions and create a dictionary that contains an ordered follow set of every app
@@ -107,5 +107,5 @@ solutions = [int(num) for num in s.split(' ')]
 cfs = counted_follow_sets(solutions)
 
 # output sorted dictionary to a json
-with open("apps2.json", 'w') as af:
+with open("apps.json", 'w') as af:
     json.dump(cfs.get_sets(), af)
