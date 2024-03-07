@@ -1,15 +1,18 @@
+from itertools import chain
 import numpy as np
 from geneticalgorithm import geneticalgorithm as ga
 import json
 import re
 import csv
+from counted_follow_sets import counted_follow_sets
 STRING_LEN = 250
 
 
 toolnums = {}
 tools_by_day = {}
-
 toolnums = {}
+
+# load data from csv into our data structures
 with open('kardia-obfuserdata.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',')
     next(spamreader, None)  # Skip header row
@@ -32,11 +35,14 @@ with open('kardia-obfuserdata.csv', newline='') as csvfile:
         
 # concatenate the item numbers by day
 tools_by_day_list = []
+full_num_list = []
 for value in tools_by_day.values():
     if len(value) >= 1:
         temp = []
         for val in value:
-            temp.append(str(toolnums.get(val)))
+            n = toolnums.get(val)
+            temp.append(str(n))
+            full_num_list.append(n)
         tools_by_day_list.append(' '.join(temp))
 
 # fitness function to pass to the GA
@@ -59,11 +65,11 @@ def calc_score(joined_ary):
     return score
 
 # Set GA algorithm parameters
-algorithm_param = {'max_num_iteration': 50,
+algorithm_param = {'max_num_iteration': 5000,
                    'population_size':100, # no touch
                    'mutation_probability':0.15, # 0.1
                    'elit_ratio': 0.01,
-                   'crossover_probability': 0.25, # 0.5
+                   'crossover_probability': 0.4, # 0.5
                    'parents_portion': 0.3,
                    'crossover_type':'uniform',
                    'max_iteration_without_improv': None
@@ -93,27 +99,13 @@ results = {}
 results.update({'apps' : app_lst})
 results.update({'nums' : s})
 results.update({'score' : score})
-with open('results.json', 'w') as f:
+with open('results2.json', 'w') as f:
     json.dump(results, f)
 
 # take the solutions and create a dictionary that contains an ordered follow set of every app
 solutions = [int(num) for num in s.split(' ')]
-app_dict = dict()
-for app_num, next_app_num in zip(solutions[:-1], solutions[1:]):
-    if (curr_app_list := app_dict.get(app_num)) is None:
-        app_dict.update({app_num : dict({next_app_num : 1})})
-    else:
-        if (next_app_count := curr_app_list.get(next_app_num)) is None:
-            curr_app_list.update({next_app_num : 1})
-        else:
-            curr_app_list.update({next_app_num : next_app_count+1})
-
-# sort the dictionary values by the frequency of apps within any app's given follow set
-out_dict = {}
-for key, value in app_dict.items():
-    sorted_vals = dict(sorted(value.items(), key=lambda item: item[1], reverse=True))
-    out_dict.update({key : sorted_vals})
+cfs = counted_follow_sets(solutions)
 
 # output sorted dictionary to a json
-with open("apps.json", 'w') as af:
-    json.dump(out_dict, af)
+with open("apps2.json", 'w') as af:
+    json.dump(cfs.get_sets(), af)
