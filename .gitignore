@@ -4,4 +4,4 @@ kardia-obfuserdata.csv
 tempCodeRunnerFile.py
 userdata.csv
 dummy_data.csv
-statistics/graphs/images/*
+src/statistics/graphs/images/*

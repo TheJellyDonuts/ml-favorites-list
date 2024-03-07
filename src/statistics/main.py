@@ -14,10 +14,10 @@ from prettytable import PrettyTable
 current_dir = os.path.dirname(__file__)
 
 # Set the data directory
-results_dir = os.path.join(current_dir, "results")
+tables_dir = os.path.join(current_dir, "tables")
 
-# List all the files in the 'results' directory
-file_options = os.listdir(results_dir)
+# List all the files in the 'tables' directory
+file_options = os.listdir(tables_dir)
 questions = [
     inquirer.List(
         "selected_probability",
@@ -31,7 +31,7 @@ selected_file = answers["selected_probability"]
 
 
 # Load the probabilities from the CSV file
-file_path = os.path.join(results_dir, selected_file)
+file_path = os.path.join(tables_dir, selected_file)
 normal_probabilities = pd.read_csv(file_path, header=0, index_col=0)
 
 next_paths = None
