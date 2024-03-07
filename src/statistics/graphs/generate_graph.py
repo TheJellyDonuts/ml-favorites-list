@@ -75,6 +75,22 @@ if input_path not in data.index:
     )
     exit()
 
+# Ask the user if they want to see the probabilities
+questions = [
+    inquirer.Confirm("see_probabilities", message="Do you want to see the probabilities?")
+]
+
+answers = inquirer.prompt(questions)
+see_probabilities = answers["see_probabilities"]
+
+# Ask the user if they want to save the graph
+questions = [
+    inquirer.Confirm("save_graph", message="Do you want to save the graph?")
+]
+
+answers = inquirer.prompt(questions)
+save_graph = answers["save_graph"]
+
 # Get the row of data from the input
 row = data.loc[input_path]
 
@@ -113,4 +129,10 @@ input_path = input_path.replace(" ", "_")
 input_path = input_path.replace(".app", "")
 
 output_path = os.path.join(output_dir, input_path + ".png")
-plt.savefig(output_path)
+
+if save_graph:
+    plt.savefig(output_path)
+
+# Show the graph
+if see_probabilities:
+    plt.show()
