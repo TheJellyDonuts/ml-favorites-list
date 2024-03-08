@@ -1,9 +1,15 @@
 class counted_follow_sets():
     
     # consecutive_items = list of nums
-    def __init__(self, consecutive_items):
+    def __init__(self, consecutive_items, conversion_dict=None):
         self.sets = dict()
-        if consecutive_items is not None:
+        if conversion_dict is not None:
+            canonical_app_names = []
+            for item in consecutive_items:
+                canonical_app_names.append(conversion_dict.get(item))
+            consecutive_items = canonical_app_names
+
+        if consecutive_items is not None and len(consecutive_items) > 0:
             for item, next_item in zip(consecutive_items[:-1], consecutive_items[1:]):
                 self.add_item(item, next_item)
                 

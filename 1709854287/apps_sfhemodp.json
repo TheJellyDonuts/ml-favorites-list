@@ -1,0 +1,125 @@
+{
+    "/apps/kardia/modules/payroll/payroll_register.app": {
+        "/apps/kardia/modules/base/prefs.app": 1,
+        "/apps/kardia/modules/rcpt/gift_matrix.app": 1
+    },
+    "/apps/kardia/modules/base/prefs.app": {
+        "/apps/kardia/modules/base/country_maint.app": 1
+    },
+    "/apps/kardia/modules/base/country_maint.app": {
+        "/apps/kardia/modules/rcpt/gift_entry.app": 1
+    },
+    "/apps/kardia/modules/rcpt/gift_entry.app": {
+        "/apps/kardia/modules/rcpt/donation_summary.app": 1
+    },
+    "/apps/kardia/modules/rcpt/donation_summary.app": {
+        "/apps/kardia/modules/rcpt/cr_batches.app": 1
+    },
+    "/apps/kardia/modules/rcpt/cr_batches.app": {
+        "/apps/kardia/modules/rcpt/de_batches.app": 1,
+        "/apps/kardia/modules/rcpt/cr_batches.app": 1,
+        "/apps/kardia/modules/payroll/payroll_register.app": 1,
+        "/apps/kardia/modules/disb/disbursements.app": 1
+    },
+    "/apps/kardia/modules/rcpt/de_batches.app": {
+        "/apps/kardia/modules/rcpt/de_batches.app": 1,
+        "/lightsys/Liabilities.app": 1
+    },
+    "/lightsys/Liabilities.app": {
+        "/apps/kardia/modules/lightsys/conv_pay.app": 1,
+        "/apps/kardia/modules/rcpt/donation_detail.app": 1
+    },
+    "/apps/kardia/modules/lightsys/conv_pay.app": {
+        "/apps/kardia/modules/rcpt/donor_report_test.app": 1,
+        "/apps/kardia/modules/rcpt/pledges.app": 1
+    },
+    "/apps/kardia/modules/rcpt/donor_report_test.app": {
+        "/apps/kardia/modules/rcpt/monthly_gift_list.app": 1
+    },
+    "/apps/kardia/modules/rcpt/monthly_gift_list.app": {
+        "/apps/kardia/modules/payroll/financial_statement.app": 1
+    },
+    "/apps/kardia/modules/payroll/financial_statement.app": {
+        "/apps/kardia/modules/rcpt/cr_batches.app": 1
+    },
+    "/apps/kardia/modules/rcpt/gift_matrix.app": {
+        "/apps/kardia/modules/payroll/payees.app": 1
+    },
+    "/apps/kardia/modules/payroll/payees.app": {
+        "/apps/kardia/modules/rcpt/gift_import.app": 1
+    },
+    "/apps/kardia/modules/rcpt/gift_import.app": {
+        "/apps/kardia/modules/system/config.app": 1,
+        "/apps/kardia/modules/gl/batches.app": 1
+    },
+    "/apps/kardia/modules/system/config.app": {
+        "/apps/kardia/modules/gl/fund_balance.app": 1
+    },
+    "/apps/kardia/modules/gl/fund_balance.app": {
+        "/apps/kardia/modules/base/email_reports_new.app": 1
+    },
+    "/apps/kardia/modules/base/email_reports_new.app": {
+        "/apps/kardia/modules/gl/inc_exp_fund_matrix.app": 1
+    },
+    "/apps/kardia/modules/gl/inc_exp_fund_matrix.app": {
+        "/apps/kardia/modules/gl/inc_exp_balance.app": 1
+    },
+    "/apps/kardia/modules/gl/inc_exp_balance.app": {
+        "/apps/kardia/modules/base/email_reports.app": 1
+    },
+    "/apps/kardia/modules/base/email_reports.app": {
+        "/apps/kardia/modules/disb/disbursements_matrix.app": 1
+    },
+    "/apps/kardia/modules/disb/disbursements_matrix.app": {
+        "/apps/kardia/modules/gl/acctmaint.app": 1
+    },
+    "/apps/kardia/modules/gl/acctmaint.app": {
+        "/apps/kardia/modules/payroll/tax_table.app": 1,
+        "/apps/kardia/modules/rcpt/donation_summary.app": 1
+    },
+    "/apps/kardia/modules/payroll/tax_table.app": {
+        "/apps/kardia/modules/gl/periodmaint.app": 1
+    },
+    "/apps/kardia/modules/gl/periodmaint.app": {
+        "/lightsys/Liabilities.app": 1
+    },
+    "/apps/kardia/modules/rcpt/donation_detail.app": {
+        "/lightsys/Receipting.app": 1,
+        "/apps/kardia/modules/gl/transaction_research.app": 1
+    },
+    "/lightsys/Receipting.app": {
+        "/apps/kardia/modules/rcpt/cr_batches.app": 1
+    },
+    "/apps/kardia/modules/disb/disbursements.app": {
+        "/apps/kardia/modules/rcpt/admin_fees.app": 1
+    },
+    "/apps/kardia/modules/rcpt/admin_fees.app": {
+        "/apps/kardia/modules/disb/disbursements_summary.app": 1
+    },
+    "/apps/kardia/modules/disb/disbursements_summary.app": {
+        "/apps/kardia/modules/rcpt/gift_import.app": 1,
+        "/apps/kardia/modules/base/data_qa.app": 1
+    },
+    "/apps/kardia/modules/gl/batches.app": {
+        "/apps/kardia/modules/rcpt/donation_detail.app": 1,
+        "/apps/kardia/modules/disb/disbursements_summary.app": 1
+    },
+    "/apps/kardia/modules/gl/transaction_research.app": {
+        "/apps/kardia/modules/base/Help.app": 1
+    },
+    "/apps/kardia/modules/base/Help.app": {
+        "/apps/kardia/modules/gl/batches.app": 1
+    },
+    "/apps/kardia/modules/base/data_qa.app": {
+        "/apps/kardia/modules/lightsys/conv_pay.app": 1
+    },
+    "/apps/kardia/modules/rcpt/pledges.app": {
+        "/apps/kardia/modules/gl/trial_balance_ctl.app": 1
+    },
+    "/apps/kardia/modules/gl/trial_balance_ctl.app": {
+        "/apps/kardia/modules/gl/period_comparison.app": 1
+    },
+    "/apps/kardia/modules/gl/period_comparison.app": {
+        "/apps/kardia/modules/gl/acctmaint.app": 1
+    }
+}
