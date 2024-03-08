@@ -3,8 +3,12 @@ from geneticalgorithm import geneticalgorithm as ga
 import json
 import re
 import csv
-NUM_RECOMMEND = 2
 
+### NOTE
+### This does not operate on a per-user basis
+### NOTE
+
+NUM_RECOMMEND = 2
 toolnums = {}
 tools_by_user = {}
 
@@ -49,42 +53,19 @@ for users in tools_by_user_list:
         hash_banana.add(tuple(users[j:j+NUM_RECOMMEND]))
     idx += len(users)-NUM_RECOMMEND+1
 
-# new_array = [tuple(row) for row in big_banana]
-# unique_banana = np.unique(new_array, axis=0)
-
-[]
-
 # fitness function to pass to the GA
 def f(tool_num_list):
     # format the input that the GA gives
     # input is a list (not an array!) of numpy numbers
-    # joined_ary = np.array2string(np.asarray(tool_num_list, dtype=int), separator=', ')[1:-1]
-    # joined_ary = re.sub(r'\s+', r' ', joined_ary).strip()
     joined_ary = tuple(map(int, tool_num_list))
-    # joined_ary = re.sub(r'\s+', r' ', tool_num_list).strip()
-    []
     # algorithm minimizes score, but score is a num of counts (which we want to max),
     # so return the inverse of the score    
     return 1/(calc_score(joined_ary)+1)
 
-# def tuple_to_string(t):
-#     return str(t)[1:-1]
-
-
 # iterate past each day's tool num string and find all matches in the GA input 
 def calc_score(joined_ary):
-    if joined_ary in hash_banana:
-        # print('match')
-        return 1
-    return 0
     # return 1 if joined_ary in hash_banana else 0
-
-    a = sum([repr(row).count(joined_ary) for row in hash_banana])
-    return a
-    score = 0
-    for row in big_banana:
-        score += repr(row).count(joined_ary)
-    return score
+    return sum([repr(row).count(joined_ary) for row in hash_banana])
 
 # Set GA algorithm parameters
 algorithm_param = {'max_num_iteration': 5000,
