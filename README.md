@@ -26,6 +26,7 @@ These look like they could be powerful and helpful to achieving the project goal
 - https://www.geeksforgeeks.org/recommendation-system-in-python/
 
 ## Potentially Helpful Resources
+- [Extensive list of recommender systems](https://github.com/TheJellyDonuts/ml-favorites-list)
 - https://developers.google.com/machine-learning/recommendation/dnn/softmax
 - https://www.geeksforgeeks.org/long-short-term-memory-lstm-rnn-in-tensorflow/
 - https://www.tensorflow.org/recommenders/examples/sequential_retrieval
