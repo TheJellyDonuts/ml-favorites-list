@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import os
 from preprocessing import preprocess_csv
+from tqdm import tqdm
 
 def generate_user_probabilities():
     """
@@ -45,7 +46,7 @@ def generate_user_probabilities():
     # Calculate the probabilities
     already_tested = []
 
-    for k in range(len(data)):
+    for k in tqdm(range(len(data))):
         current_user = data["user_name"][k]
         current_app_path = data["app_path"][k]
         if current_user + " " + current_app_path in already_tested:
@@ -76,7 +77,7 @@ def generate_user_probabilities():
     current_dir = os.path.dirname(__file__)
 
     # Set FilePath
-    file_path = os.path.join(current_dir, "../results/user_probabilities.csv")
+    file_path = os.path.join(current_dir, "../tables/user_probabilities.csv")
 
     # Save the normalized probabilities to a CSV file
     probabilities.to_csv(file_path, index=True, header=True)

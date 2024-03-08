@@ -58,7 +58,7 @@ def generate_generic_stats():
     current_dir = os.path.dirname(__file__)
 
     # Set FilePath
-    file_path = os.path.join(current_dir, "../results/generic_probabilities.csv")
+    file_path = os.path.join(current_dir, "../tables/generic_probabilities.csv")
 
     # Save the normalized probabilities to a CSV file
     probabilities.to_csv(file_path, index=True, header=True)

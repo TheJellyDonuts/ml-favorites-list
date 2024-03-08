@@ -1,6 +1,6 @@
 .python-version
 *.pyc
 src/statistics/graphs/images/*
-src/data/*
+#src/data/*
 tempCodeRunnerFile.py
 userdata.csv
