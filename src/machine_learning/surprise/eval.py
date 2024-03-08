@@ -21,6 +21,9 @@ param_grid = {"n_epochs": [500, 15000], "lr_all": [0.005, 0.5], "reg_all": [0.00
 def get_top_n(predictions, n=10):
     """Return the top-N recommendation for each user from a set of predictions.
 
+    Note: This function depends on the existence of ./src/data/generated/ratings.csv.
+    Run the ./src/machine_learning/sequential_retrieval/generate_records.py script first.
+
     Args:
         predictions(list of Prediction objects): The list of predictions, as
             returned by the test method of an algorithm.
