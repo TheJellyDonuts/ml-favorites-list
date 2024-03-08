@@ -40,7 +40,6 @@ with open(FILENAME) as csvfile:
             curr_user_day = curr_user.get(day)
         new_tool_list = curr_user_day.append(tool)  # This object is still connected to the dictionary, so this works
 
-
 # concatenate the item numbers by user and by day
 tools_by_user_dict = dict()
 for user, date in users.items():
@@ -70,7 +69,7 @@ for user in users.keys():
 def abstract_f(tool_num_list, user_tools_by_day):
     # format the input that the GA gives
     # input is a list (not an array!) of numpy numbers
-    joined_ary = np.array2string(np.asarray(tool_num_list, dtype=int))[1:-1]
+    joined_ary = np.array2string(np.asarray(tool_num_list, dtype=int), separator=', ')[1:-1]
     joined_ary = re.sub(r'\s+', r' ', joined_ary).strip()
 
     # algorithm minimizes score, but score is a num of counts (which we want to max),
