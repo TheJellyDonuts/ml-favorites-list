@@ -5,3 +5,11 @@ src/statistics/graphs/images/*
 tempCodeRunnerFile.py
 userdata.csv
 ratings.csv
+app_ratings.csv
+apps.csv
+unique_apps.csv
+users.csv
+kardia_data_five_years.csv
+kardia_data_one_year.csv
+train_app.tfrecord
+test_app.tfrecord
