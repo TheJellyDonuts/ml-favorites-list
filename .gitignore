@@ -4,3 +4,4 @@ src/statistics/graphs/images/*
 #src/data/*
 tempCodeRunnerFile.py
 userdata.csv
+ratings.csv
