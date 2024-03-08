@@ -97,6 +97,7 @@ algorithm_param = {'max_num_iteration': GENERATIONS,
                    'max_iteration_without_improv': None
                    }
 
+# define the boundaries of the toolnums that the GA values take
 varbound=np.array([[0,len(toolnums)/2-1]]*STRING_LEN)
 
 # Create unique directory to store all the results
