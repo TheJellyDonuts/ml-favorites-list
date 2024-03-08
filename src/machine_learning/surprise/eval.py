@@ -1,10 +1,22 @@
-import os
+# Read for more information: https://surprise.readthedocs.io/en/stable/index.html
+'''
+This program finds PREDICTION_NUM recommended apps per user given their open 
+history from ratings.csv. It is unclear how accurate this is, as the statistics
+don't have a comprable analysis.
+The values in param_grid are adjustable; the program automatically does a search
+within the ranges specified for each value to find a relative optimum. Beware of 
+using too large of a range, or it will be to large a grain to find more optimal
+values. The best result we have so far is in surprise_res.json.
+'''
 
-from surprise import Dataset, Reader
-from surprise import Dataset, SVD
+import os
+from surprise import Dataset, Reader, SVD
 from surprise.model_selection import GridSearchCV
 from collections import defaultdict
 import pandas as pd
+
+PREDICTION_NUM = 3
+param_grid = {"n_epochs": [500, 15000], "lr_all": [0.005, 0.5], "reg_all": [0.005, 0.5]}
 
 def get_top_n(predictions, n=10):
     """Return the top-N recommendation for each user from a set of predictions.
@@ -33,20 +45,18 @@ def get_top_n(predictions, n=10):
     return top_n
 
 
-# path to dataset file
+# get data from dataset file
 file_path = os.path.expanduser("./src/data/generated/ratings.csv")
 reader = Reader(line_format="user item rating timestamp", sep=",", skip_lines=1)
 data = Dataset.load_from_file(file_path, reader=reader)
 
+# optimize parameters
 print('Optimizing parameters...')
-param_grid = {"n_epochs": [500, 15000], "lr_all": [0.005, 0.5], "reg_all": [0.005, 0.5]}
 gs = GridSearchCV(SVD, param_grid, measures=["rmse", "mae"], cv=5, n_jobs=-2)
-# {'n_epochs': 50, 'lr_all': 0.1, 'reg_all': 5e-05}
 gs.fit(data)
 
 
-
-# We can now use the algorithm that yields the best rmse:
+# use the algorithm that yields the best rmse:
 algo = gs.best_estimator["rmse"]
 print('Building training set...')
 trainset = data.build_full_trainset()
@@ -54,21 +64,19 @@ print('Fitting...')
 algo.fit(trainset)
 
 
-# Than predict ratings for all pairs (u, i) that are NOT in the training set.
+# predict ratings for all pairs (u, i) that are NOT in the training set.
 testset = trainset.build_anti_testset()
 predictions = algo.test(testset)
+top_n = get_top_n(predictions, n=PREDICTION_NUM)
 
-top_n = get_top_n(predictions, n=3)
-
-
-# Translate iid to app_name
+# translate iid to app_name and uid to user_name
 cur_dir = os.path.dirname(__file__)
 app_path = './src/data/generated/apps.csv' #os.path.join(cur_dir, './src/data/generated/apps.csv')
 user_path = './src/data/generated/users.csv' #os.path.join(cur_dir, './src/data/generated/users.csv')
 app_df = pd.read_csv(app_path, header=None, names=['app_id', 'app_name', 'app_category'])
 user_df = pd.read_csv(user_path, header=None, names=['user_id', 'user_name'])
 
-# Make app_df a dictionary with app_id as key and app_name as value
+# make dictionaries with ids as key and names as values
 app_df = app_df.set_index('app_id').to_dict()['app_name']
 user_df = user_df.set_index('user_id').to_dict()['user_name']
 
@@ -79,50 +87,37 @@ print('RSME:', gs.best_score["rmse"])
 # combination of parameters that gave the best RMSE score
 print('Params:', gs.best_params["rmse"])
 
-# Print the recommended items for each user
+# print the recommended items by user
 for uid, user_ratings in top_n.items():
     u = "{:<15} ".format(user_df[int(uid)])
     print(u, [app_df[int(iid)] for (iid, _) in user_ratings], ',', sep='')
 
 '''
-2.397637048187614
-{'n_epochs': 500, 'lr_all': 0.0005, 'reg_all': 0.25}
-ariaecd        ['cr_batches.app', 'gift_entry.app', 'cd_batches.app']
-cwotg          ['cd_batches.app', 'disbursements.app', 'batches.app']
-ebwfrre        ['cr_batches.app', 'gift_entry.app', 'disbursements.app']
-eidohxy        ['partner_search.app', 'security_permissions.app', 'motd_edit.app']
-fnnglumiip     ['cr_batches.app', 'gift_entry.app', 'disbursements.app']
-hpoewnocnntmp  ['cd_batches.app', 'disbursements.app', 'gift_entry_new.app']
-iblingai       ['gift_entry.app', 'cd_batches.app', 'disbursements.app']
-litawhe        ['cr_batches.app', 'gift_entry.app', 'disbursements.app']
-nhw            ['partner_window.app', 'cr_batches.app', 'disbursements.app']
-nuyeno         ['cr_batches.app', 'gift_entry.app', 'cd_batches.app']
-paau           ['gift_entry_new.app', 'partner_search.app', 'security_permissions.app']
-sfhemodp       ['cd_batches.app', 'disbursements.app', 'gift_import.app']
-sgacsbo        ['cd_batches.app', 'disbursements.app', 'batches.app']
-smklfop        ['partner_search.app', 'Receipting.app']
-tadeovbb       ['cd_batches.app', 'disbursements.app', 'gift_entry_new.app']
-tqdwtr         ['partner_window.app', 'cr_batches.app', 'gift_entry.app']
+Best
+{
+    "RSME": 2.3936304769760732,
+    "params": {'n_epochs': 400, 'lr_all': 0.001, 'reg_all': 0.001},
+    "data": {
+        ariaecd:        ['cr_batches.app', 'gift_entry.app', 'cd_batches.app'],
+        cwotg:          ['cd_batches.app', 'disbursements.app', 'batches.app'],
+        ebwfrre:        ['cr_batches.app', 'gift_entry.app', 'disbursements.app'],
+        eidohxy:        ['TableMaintenance.app', 'data_qa.app', 'partner_search.app'],
+        fnnglumiip:     ['cr_batches.app', 'gift_entry.app', 'disbursements.app'],
+        hpoewnocnntmp:  ['cd_batches.app', 'disbursements.app', 'gift_entry_new.app'],
+        iblingai:       ['gift_import.app', 'gift_entry.app', 'cd_batches.app'],
+        litawhe:        ['cr_batches.app', 'gift_entry.app', 'disbursements.app'],
+        nhw:            ['partner_window.app', 'cr_batches.app', 'cd_batches.app'],
+        nuyeno:         ['cr_batches.app', 'gift_entry.app', 'disbursements.app'],
+        paau:           ['gift_entry_new.app', 'partner_search.app', 'data_qa.app'],
+        sfhemodp:       ['cd_batches.app', 'disbursements.app', 'gift_import.app'],
+        sgacsbo:        ['cd_batches.app', 'disbursements.app', 'batches.app'],
+        smklfop:        ['partner_search.app', 'Receipting.app'],
+        tadeovbb:       ['cd_batches.app', 'disbursements.app', 'gift_entry_new.app'],
+        tqdwtr:         ['partner_window.app', 'cr_batches.app', 'gift_entry.app']
+    }
+}
 
-2.3936304769760732
-{'n_epochs': 400, 'lr_all': 0.001, 'reg_all': 0.001}
-ariaecd:        ['cr_batches.app', 'gift_entry.app', 'cd_batches.app'],
-cwotg:          ['cd_batches.app', 'disbursements.app', 'batches.app'],
-ebwfrre:        ['cr_batches.app', 'gift_entry.app', 'disbursements.app'],
-eidohxy:        ['TableMaintenance.app', 'data_qa.app', 'partner_search.app'],
-fnnglumiip:     ['cr_batches.app', 'gift_entry.app', 'disbursements.app'],
-hpoewnocnntmp:  ['cd_batches.app', 'disbursements.app', 'gift_entry_new.app'],
-iblingai:       ['gift_import.app', 'gift_entry.app', 'cd_batches.app'],
-litawhe:        ['cr_batches.app', 'gift_entry.app', 'disbursements.app'],
-nhw:            ['partner_window.app', 'cr_batches.app', 'cd_batches.app'],
-nuyeno:         ['cr_batches.app', 'gift_entry.app', 'disbursements.app'],
-paau:           ['gift_entry_new.app', 'partner_search.app', 'data_qa.app'],
-sfhemodp:       ['cd_batches.app', 'disbursements.app', 'gift_import.app'],
-sgacsbo:        ['cd_batches.app', 'disbursements.app', 'batches.app'],
-smklfop:        ['partner_search.app', 'Receipting.app'],
-tadeovbb:       ['cd_batches.app', 'disbursements.app', 'gift_entry_new.app']
-tqdwtr:         ['partner_window.app', 'cr_batches.app', 'gift_entry.app']
-
+2nd best
 2.3949103954659057
 {'n_epochs': 800, 'lr_all': 5e-05, 'reg_all': 5e-07}
 ariaecd         ['cr_batches.app', 'gift_entry.app', 'cd_batches.app'],
