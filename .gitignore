@@ -1,7 +1,10 @@
 kardia-obfuserdata.csv
+kardia-obfuserdata2.csv
+kardia_data_five_years.csv
 .python-version
 *.pyc
 tempCodeRunnerFile.py
 userdata.csv
 dummy_data.csv
 src/statistics/graphs/images/*
+decision_tree.pdf
