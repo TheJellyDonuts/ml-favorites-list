@@ -1,6 +1,9 @@
 # ml-favorites-list
 Building a machine learning favorites list algorithm for the [Kardia tool suite](https://kardia.sourceforge.net/vision.php).
 
+## NOTE FOR FUTURE DEVELOPERS
+All the relevant files are stored on the Riot server (CaT2024: Favorites List via ML). The PPTX is also located in the same place.
+
 ## How-To Videos on ML Algorithms
 ## Getting up to speed
 ### Understanding Neural Networks and Variants
