@@ -7,3 +7,5 @@ src/data/input/*
 tempCodeRunnerFile.py
 train_app.tfrecord
 test_app.tfrecord
+dummy_data.csv
+decision_tree.pdf
