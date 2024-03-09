@@ -1,3 +1,6 @@
+# genetic.py and counted_follow_sets.py do what was trying to be done here but better
+# this file is preserved for posterity. Could be helpful if GAs need to be relooked at
+
 import numpy as np
 from geneticalgorithm import geneticalgorithm as ga
 import json

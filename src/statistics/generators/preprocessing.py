@@ -24,7 +24,7 @@ def preprocess_csv():
     current_dir = os.path.dirname(__file__)
 
     # Set the data directory
-    data_dir = os.path.join(current_dir, "../../data")
+    data_dir = os.path.join(current_dir, "../../data/input")
 
     # List all the files in the 'data' directory
     file_options = os.listdir(data_dir)
