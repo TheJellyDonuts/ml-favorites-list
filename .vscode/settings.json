@@ -1,0 +1,6 @@
+{
+    "editor.tabCompletion": "on",
+    "editor.stickyTabStops": true,
+    "files.autoSaveDelay": 100,
+    "files.autoSave": "afterDelay"
+}
