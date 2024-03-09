@@ -3,7 +3,6 @@ import pprint
 import numpy as np
 import tensorflow as tf
 import tensorflow_recommenders as tfrs
-import tensorflow_datasets as tfds
 import pandas as pd
 
 TFRECORD_NAME = "app"
@@ -44,9 +43,7 @@ for x in train_ds.take(1).as_numpy_iterator():
 # Get Current Directory
 cur_dir = os.path.dirname(__file__)
 
-app_csv_path = os.path.join(cur_dir, 'data', 'csv', 'apps.csv')
-# !ratings_csv_path = os.path.join(cur_dir, 'data', 'csv', 'ratings.csv')
-# !users_csv_path = os.path.join(cur_dir, 'data', 'csv', 'users.csv')
+app_csv_path = os.path.join(cur_dir, '..', '..', 'data', 'generated', 'apps.csv')
 
 # Load your CSV files into pandas DataFrames
 apps_df = pd.read_csv(app_csv_path, header=None, names=['app_id', 'app_name', 'app_category'])
@@ -116,7 +113,7 @@ model.compile(optimizer=tf.keras.optimizers.Adagrad(learning_rate=0.1))
 cached_train = train_ds.shuffle(10_000).batch(12800).cache()
 cached_test = test_ds.batch(2560).cache()
 
-model.fit(cached_train, epochs=20000)
+model.fit(cached_train, epochs=100)
 
 model.evaluate(cached_test, return_dict=True)
 
