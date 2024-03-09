@@ -5,6 +5,7 @@ src/statistics/tables/*
 src/data/generated/*
 src/data/input/*
 tempCodeRunnerFile.py
+__pycache__*
 train_app.tfrecord
 test_app.tfrecord
 dummy_data.csv
